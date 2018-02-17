@@ -2,7 +2,7 @@
 
 [osu!](https://osu.ppy.sh) IRC client library basically only compatible with bancho due to `\n` line endings and very limited IRC commands.
 
-## [Documentation](https://webfreak001.github.io/bancho-irc/)
+## [Documentation](https://webfreak001.github.io/bancho-irc/index.html)
 
 ## Example
 
