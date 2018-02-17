@@ -588,30 +588,55 @@ enum Team
 ///
 enum Mod : string
 {
+	///
 	Easy = "Easy",
+	///
 	NoFail = "NoFail",
+	///
 	HalfTime = "HalfTime",
+	///
 	HardRock = "HardRock",
+	///
 	SuddenDeath = "SuddenDeath",
+	///
 	DoubleTime = "DoubleTime",
+	///
 	Nightcore = "Nightcore",
+	///
 	Hidden = "Hidden",
+	///
 	FadeIn = "FadeIn",
+	///
 	Flashlight = "Flashlight",
+	///
 	Relax = "Relax",
+	///
 	Autopilot = "Relax2",
+	///
 	SpunOut = "SpunOut",
+	///
 	Key1 = "Key1",
+	///
 	Key2 = "Key2",
+	///
 	Key3 = "Key3",
+	///
 	Key4 = "Key4",
+	///
 	Key5 = "Key5",
+	///
 	Key6 = "Key6",
+	///
 	Key7 = "Key7",
+	///
 	Key8 = "Key8",
+	///
 	Key9 = "Key9",
+	///
 	KeyCoop = "KeyCoop",
+	///
 	ManiaRandom = "Random",
+	///
 	FreeMod = "FreeMod",
 }
 
