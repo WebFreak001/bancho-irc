@@ -1,0 +1,9 @@
+{
+	"name": "bancho-irc",
+	"description": "osu! IRC & multiplayer lobby management library using vibe.d",
+	"license": "MIT",
+	"dependencies": {
+		"vibe-d:core": "*",
+		"vibe-d:stream": "*"
+	}
+}
