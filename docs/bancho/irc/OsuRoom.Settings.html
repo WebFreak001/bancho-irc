@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Struct OsuRoom.Settings</title>
+		<link rel="stylesheet" href="../../css/style.min.css"/>
+		<script type="text/javascript" src="../../js/script.min.js"></script>
+	</head>
+	<body onload="setupDdox();">
+		<header></header>
+		<nav id="main-nav">
+			<div>
+				<noscript>
+					<p style="color: red">The search functionality needs JavaScript enabled</p>
+				</noscript>
+				<div id="symbolSearchPane" style="display: none">
+					<form action="#" method="GET">
+						<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(24);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" autofocus/>
+					</form>
+					<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../";
+document.getElementById('symbolSearchPane').style.display = 'block';</script>
+				</div>
+				<ul class="tree-view">
+					<li class="tree-view ">
+						<div class="package ">bancho
+						</div>
+				<ul class="tree-view">
+					<li>
+						<div class="module selected">
+							<a href="../../bancho/irc.html">irc</a>
+						</div>
+					</li>
+				</ul>
+					</li>
+				</ul>
+			</div>
+			<p id="main-nav-footer">
+				Built with
+				<a href="https://github.com/MartinNowak/scod">scod</a>
+			</p>
+		</nav>
+		<div id="main-contents">
+			<div>
+				<h1>Struct OsuRoom.Settings</h1><p>Returned by !mp settings
+</p>
+				<div class="prototype">
+					<code class="lang-d">
+						<div class="single-prototype">
+				<span class="kwd">struct</span> <span class="typ">Settings</span>
+				<span class="pun">;</span>
+						</div>
+					</code>
+				</div>
+				
+				<section><h2>Fields</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Type</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.activeMods.html" class="public"><code>activeMods</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/Mod.html"><span class="typ">Mod</span></a><span class="pun">[]</span></code></td><td>Global active mods or all mods if freemods is off, contains Mod.FreeMod if on
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.beatmapID.html" class="public"><code>beatmapID</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Beatmap information
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.beatmapName.html" class="public"><code>beatmapName</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Beatmap information
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.beatmapURL.html" class="public"><code>beatmapURL</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Beatmap information
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.history.html" class="public"><code>history</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>URL to match history
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.name.html" class="public"><code>name</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Game name
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.numPlayers.html" class="public"><code>numPlayers</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">int</span></code></td><td>Number of players in this match
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.players.html" class="public"><code>players</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/OsuRoom.Settings.Player.html"><span class="typ">OsuRoom<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Settings<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Player</span></a><span class="pun">[</span><span class="lit">16</span><span class="pun">]</span></code></td><td>All players for every slot (empty slots are Player.init)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.teamMode.html" class="public"><code>teamMode</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/TeamMode.html"><span class="typ">TeamMode</span></a></code></td><td>Type of game (coop, tag team, etc.)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.winCondition.html" class="public"><code>winCondition</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/ScoreMode.html"><span class="typ">ScoreMode</span></a></code></td><td>Win condition (score, acc, combo, etc.)
+</td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Inner structs</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.Player.html" class="public">
+									<code>Player</code>
+								</a>
+							</td>
+							<td>Represents a player state in the settings result
+</td>
+						</tr>
+					</table>
+				</section>
+				
+			</div>
+			<footer>
+				<div id="license-info">
+					
+					
+					
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

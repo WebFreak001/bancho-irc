@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Class OsuRoom</title>
+		<link rel="stylesheet" href="../../css/style.min.css"/>
+		<script type="text/javascript" src="../../js/script.min.js"></script>
+	</head>
+	<body onload="setupDdox();">
+		<header></header>
+		<nav id="main-nav">
+			<div>
+				<noscript>
+					<p style="color: red">The search functionality needs JavaScript enabled</p>
+				</noscript>
+				<div id="symbolSearchPane" style="display: none">
+					<form action="#" method="GET">
+						<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(24);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" autofocus/>
+					</form>
+					<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../";
+document.getElementById('symbolSearchPane').style.display = 'block';</script>
+				</div>
+				<ul class="tree-view">
+					<li class="tree-view ">
+						<div class="package ">bancho
+						</div>
+				<ul class="tree-view">
+					<li>
+						<div class="module selected">
+							<a href="../../bancho/irc.html">irc</a>
+						</div>
+					</li>
+				</ul>
+					</li>
+				</ul>
+			</div>
+			<p id="main-nav-footer">
+				Built with
+				<a href="https://github.com/MartinNowak/scod">scod</a>
+			</p>
+		</nav>
+		<div id="main-contents">
+			<div>
+				<h1>Class OsuRoom</h1><p>Represents a multiplayer lobby in osu!
+Automatically does ratelimiting by not sending more than a message every 2 seconds.
+</p>
+				<div class="prototype">
+					<code class="lang-d">
+						<div class="single-prototype">
+				<span class="kwd">class</span> <span class="typ">OsuRoom</span>
+				<span class="pun">;</span>
+						</div>
+					</code>
+				</div>
+				
+				<section><h2>Properties</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Type</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.locked.html" class="public property"><code>locked</code></a><span class="tableEntryAnnotation">[set]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span></code></td><td>Property to lock slots (disallow changing slots &amp; joining)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.mpid.html" class="public property"><code>mpid</code></a><span class="tableEntryAnnotation">[get]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Returns the game ID as usable in osu://mp/ID urls
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.password.html" class="public property"><code>password</code></a><span class="tableEntryAnnotation">[set]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Sets the match password (password will be visible to existing players)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.room.html" class="public property"><code>room</code></a><span class="tableEntryAnnotation">[get]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Returns the room ID as usable in the mp history URL or IRC joinable via #mp_ID
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.settings.html" class="public property"><code>settings</code></a><span class="tableEntryAnnotation">[get]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/OsuRoom.Settings.html"><span class="typ">OsuRoom<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Settings</span></a></code></td><td>Returns the current mp settings
+</td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Methods</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.abortMatch.html" class="public">
+									<code>abortMatch</code>
+								</a>
+							</td>
+							<td>Aborts a running match
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.abortTimer.html" class="public">
+									<code>abortTimer</code>
+								</a>
+							</td>
+							<td>Aborts any running countdown
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.clearhost.html" class="public">
+									<code>clearhost</code>
+								</a>
+							</td>
+							<td>Makes nobody host (make it system/bog managed)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.close.html" class="public">
+									<code>close</code>
+								</a>
+							</td>
+							<td>Closes the room
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.host.html" class="public">
+									<code>host</code>
+								</a>
+							</td>
+							<td>Gives host to a player
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.invite.html" class="public">
+									<code>invite</code>
+								</a>
+							</td>
+							<td>Invites a player to the room
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.kick.html" class="public">
+									<code>kick</code>
+								</a>
+							</td>
+							<td>Kicks a player from the room
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.map.html" class="public">
+									<code>map</code>
+								</a>
+							</td>
+							<td>Changes the map to a beatmap ID (b/ url)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.mods.html" class="public">
+									<code>mods</code>
+								</a>
+							</td>
+							<td>Changes the mods in this lobby (pass FreeMod first if you want FreeMod)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.move.html" class="public">
+									<code>move</code>
+								</a>
+							</td>
+							<td>Moves a player to another slot
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.sendMessage.html" class="public">
+									<code>sendMessage</code>
+								</a>
+							</td>
+							<td>Sends a message with a 2 second ratelimit
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.set.html" class="public">
+									<code>set</code>
+								</a>
+							</td>
+							<td>Sets up teammode, scoremode &amp; lobby size
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.setTeam.html" class="public">
+									<code>setTeam</code>
+								</a>
+							</td>
+							<td>Changes a user's team
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.setTimer.html" class="public">
+									<code>setTimer</code>
+								</a>
+							</td>
+							<td>Sets a timer using !mp timer
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.size.html" class="public">
+									<code>size</code>
+								</a>
+							</td>
+							<td>Changes the slot limit of this lobby
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.start.html" class="public">
+									<code>start</code>
+								</a>
+							</td>
+							<td>Starts a match after a specified amount of seconds. If after is &lt;= 0 the game will be started immediately.
+The timeout can be canceled using abortTimer.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.waitForJoin.html" class="public">
+									<code>waitForJoin</code>
+								</a>
+							</td>
+							<td>Waits for a player to join the room &amp; return the username
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.waitForTimer.html" class="public">
+									<code>waitForTimer</code>
+								</a>
+							</td>
+							<td>Waits for an existing timer/countdown to finish (wont start one)
+</td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Inner structs</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.Settings.html" class="public">
+									<code>Settings</code>
+								</a>
+							</td>
+							<td>Returned by !mp settings
+</td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Example</h2>
+
+<pre class="code"><code class="lang-d"><a href="../../bancho/irc/BanchoBot.html"><span class="typ">BanchoBot</span></a><span class="pln"> banchoConnection </span><span class="pun">= </span><span class="kwd">new <a href="../../bancho/irc/BanchoBot.html"></span><span class="typ">BanchoBot</span></a><span class="pun">(</span><span class="str">"WebFreak"</span><span class="pun">, </span><span class="str">""</span><span class="pun">);
+</span><span class="typ">bool </span><span class="pln">running </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+</span><span class="kwd">auto </span><span class="pln">botTask </span><span class="pun">= </span><span class="pln">runTask</span><span class="pun">({
+	</span><span class="kwd">while </span><span class="pun">(</span><span class="pln">running</span><span class="pun">)
+	{
+		</span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">connect</span><span class="pun">();
+		</span><span class="pln">logDiagnostic</span><span class="pun">(</span><span class="str">"Got disconnected from bancho..."</span><span class="pun">);
+		</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+	}
+});
+</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">3<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+</span><span class="kwd">auto </span><span class="pln">users </span><span class="pun">= [</span><span class="str">"WebFreak"</span><span class="pun">, </span><span class="str">"Node"</span><span class="pun">];
+</span><span class="typ">OsuRoom </span><span class="pln">room </span><span class="pun">= </span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">createRoom</span><span class="pun">(</span><span class="str">"bob"</span><span class="pun">);
+</span><span class="pln">runTask</span><span class="pun">({
+	</span><span class="kwd">foreach </span><span class="pun">(</span><span class="pln">user</span><span class="pun">; </span><span class="pln">users</span><span class="pun">)
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">invite</span><span class="pun">(</span><span class="pln">user</span><span class="pun">);
+});
+</span><span class="pln">runTask</span><span class="pun">({
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">password </span><span class="pun">= </span><span class="str">"123456"</span><span class="pun">;
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">size </span><span class="pun">= </span><span class="lit">8</span><span class="pun">;
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">mods </span><span class="pun">= [</span><span class="typ">Mod<wbr/></span><span class="pun">.</span><span class="typ">Hidden</span><span class="pun">, </span><span class="typ">Mod<wbr/></span><span class="pun">.</span><span class="typ">DoubleTime</span><span class="pun">];
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">map </span><span class="pun">= </span><span class="str">"1158325"</span><span class="pun">;
+});
+</span><span class="pln">runTask</span><span class="pun">({
+	</span><span class="typ">int </span><span class="pln">joined</span><span class="pun">;
+	</span><span class="kwd">try
+	</span><span class="pun">{
+		</span><span class="kwd">while </span><span class="pun">(</span><span class="kwd">true</span><span class="pun">)
+		{
+			</span><span class="typ">string </span><span class="pln">user </span><span class="pun">= </span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">waitForJoin</span><span class="pun">(</span><span class="lit">30<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+			</span><span class="pln">joined</span><span class="pun">++;
+			</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"yay welcome " </span><span class="pun">~ </span><span class="pln">user </span><span class="pun">~ </span><span class="str">"!"</span><span class="pun">, </span><span class="typ">HighPriority<wbr/></span><span class="pun">.</span><span class="pln">yes</span><span class="pun">);
+		}
+	}
+	</span><span class="kwd">catch </span><span class="pun">(</span><span class="typ">InterruptException</span><span class="pun">)
+	{
+		</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">joined </span><span class="pun">== </span><span class="lit">0</span><span class="pun">)
+		{
+			</span><span class="com">// forever alone
+			</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">close</span><span class="pun">();
+			</span><span class="kwd">return</span><span class="pun">;
+		}
+	}
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"This is an automated test, this room will close in 10 seconds on timer"</span><span class="pun">);
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">setTimer</span><span class="pun">(</span><span class="lit">10<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+	</span><span class="kwd">try
+	</span><span class="pun">{
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">waitForTimer</span><span class="pun">(</span><span class="lit">15<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+	}
+	</span><span class="kwd">catch </span><span class="pun">(</span><span class="typ">InterruptException</span><span class="pun">)
+	{
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"Timer didn't trigger :("</span><span class="pun">);
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"closing the room in 5s"</span><span class="pun">);
+		</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">5<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+	}
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">close</span><span class="pun">();
+})<wbr/>.</span><span class="pln">join</span><span class="pun">();
+</span><span class="pln">running </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+</span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">disconnect</span><span class="pun">();
+</span><span class="pln">botTask<wbr/></span><span class="pun">.</span><span class="pln">join</span><span class="pun">();
+</span></code></pre>
+</section>
+
+			</div>
+			<footer>
+				<div id="license-info">
+					
+					
+					
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

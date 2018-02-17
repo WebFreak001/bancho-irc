@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Module bancho.irc</title>
+		<link rel="stylesheet" href="../css/style.min.css"/>
+		<script type="text/javascript" src="../js/script.min.js"></script>
+	</head>
+	<body onload="setupDdox();">
+		<header></header>
+		<nav id="main-nav">
+			<div>
+				<noscript>
+					<p style="color: red">The search functionality needs JavaScript enabled</p>
+				</noscript>
+				<div id="symbolSearchPane" style="display: none">
+					<form action="#" method="GET">
+						<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(24);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" autofocus/>
+					</form>
+					<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../";
+document.getElementById('symbolSearchPane').style.display = 'block';</script>
+				</div>
+				<ul class="tree-view">
+					<li class="tree-view ">
+						<div class="package ">bancho
+						</div>
+				<ul class="tree-view">
+					<li>
+						<div class="module selected">
+							<a href="../bancho/irc.html">irc</a>
+						</div>
+					</li>
+				</ul>
+					</li>
+				</ul>
+			</div>
+			<p id="main-nav-footer">
+				Built with
+				<a href="https://github.com/MartinNowak/scod">scod</a>
+			</p>
+		</nav>
+		<div id="main-contents">
+			<div>
+				<h1>Module bancho.irc</h1><p>Provides an IRC connection to Bancho (osu!'s server system) and access to its commands (Multiplayer room creation)
+</p>
+				<section></section>
+				<section>
+					<h2>Functions</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="shortForm" class="public" href="../bancho/irc/shortForm.html">shortForm</a><span class="decoration">(mod)</span>
+								</code>
+							</td>
+							<td>Generates the short form for a mod (eg Hidden -&gt; HD), can be more than 2 characters
+</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Classes</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="BanchoBot" class="public" href="../bancho/irc/BanchoBot.html">BanchoBot</a>
+								</code>
+							</td>
+							<td>Represents a Bancho IRC connection.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="OsuRoom" class="public" href="../bancho/irc/OsuRoom.html">OsuRoom</a>
+								</code>
+							</td>
+							<td>Represents a multiplayer lobby in osu!
+Automatically does ratelimiting by not sending more than a message every 2 seconds.
+</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Structs</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="Message" class="public" href="../bancho/irc/Message.html">Message</a>
+								</code>
+							</td>
+							<td>Represents a simple sent message from bancho
+</td>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="Quit" class="public" href="../bancho/irc/Quit.html">Quit</a>
+								</code>
+							</td>
+							<td>Represents a user quitting or joining the IRC ingame or via web/irc
+</td>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="TopicChange" class="public" href="../bancho/irc/TopicChange.html">TopicChange</a>
+								</code>
+							</td>
+							<td>Represents a topic change event (in the case of a multi room being created)
+</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Enums</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="Mod" class="public" href="../bancho/irc/Mod.html">Mod</a>
+								</code>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="ScoreMode" class="public" href="../bancho/irc/ScoreMode.html">ScoreMode</a>
+								</code>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="Team" class="public" href="../bancho/irc/Team.html">Team</a>
+								</code>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="TeamMode" class="public" href="../bancho/irc/TeamMode.html">TeamMode</a>
+								</code>
+							</td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Templates</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<code>
+									<a id="Processor" class="public" href="../bancho/irc/Processor.html">Processor</a>
+								</code>
+							</td>
+							<td>Utility mixin template implementing dynamic timeout based event subscribing + static backlog
+Creates methods waitFor<fn>, process[fn], fetchOld[fn]Log, clear[fn]Log
+</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Aliases</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Type</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a id="HighPriority" class="public" href="../bancho/irc/HighPriority.html">
+									<code>HighPriority</code>
+								</a>
+							</td>
+							<td>
+								<code class="prettyprint lang-d"><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">typecons<wbr/></span><span class="pun">.</span><span class="typ">Flag</span>!("highPriority")</code>
+							</td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+			</div>
+			<footer>
+				<div id="license-info">
+					
+					
+					
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Function BanchoBot.waitForMessageBunch</title>
+		<link rel="stylesheet" href="../../css/style.min.css"/>
+		<script type="text/javascript" src="../../js/script.min.js"></script>
+	</head>
+	<body onload="setupDdox();">
+		<header></header>
+		<nav id="main-nav">
+			<div>
+				<noscript>
+					<p style="color: red">The search functionality needs JavaScript enabled</p>
+				</noscript>
+				<div id="symbolSearchPane" style="display: none">
+					<form action="#" method="GET">
+						<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(24);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" autofocus/>
+					</form>
+					<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../";
+document.getElementById('symbolSearchPane').style.display = 'block';</script>
+				</div>
+				<ul class="tree-view">
+					<li class="tree-view ">
+						<div class="package ">bancho
+						</div>
+				<ul class="tree-view">
+					<li>
+						<div class="module selected">
+							<a href="../../bancho/irc.html">irc</a>
+						</div>
+					</li>
+				</ul>
+					</li>
+				</ul>
+			</div>
+			<p id="main-nav-footer">
+				Built with
+				<a href="https://github.com/MartinNowak/scod">scod</a>
+			</p>
+		</nav>
+		<div id="main-contents">
+			<div>
+				<h1>Function BanchoBot.waitForMessageBunch</h1><p>Waits for multiple messages sent at once and returns them.
+</p>
+				<div class="prototype">
+					<code class="lang-d">
+						<div class="single-prototype">
+				<a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">[]</span> <span class="pln">waitForMessageBunch</span>
+				<span class="pun">(</span>
+				<br/>
+				&nbsp;&nbsp;<span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">)</span> <span class="pln">check</span><span class="pun">,</span>
+				<br/>
+				&nbsp;&nbsp;<span class="pln">core<wbr/></span><span class="pun">.</span><span class="pln">time<wbr/></span><span class="pun">.</span><span class="typ">Duration</span> <span class="pln">timeout</span><span class="pun">,</span>
+				<br/>
+				&nbsp;&nbsp;<span class="pln">core<wbr/></span><span class="pun">.</span><span class="pln">time<wbr/></span><span class="pun">.</span><span class="typ">Duration</span> <span class="pln">totalTimeout</span> <span class="pun">=</span> <span class="pln">dur</span><span class="pun">(</span><span class="lit">5L</span><span class="pun">)</span><span class="pun">,</span>
+				<br/>
+				&nbsp;&nbsp;<span class="pln">core<wbr/></span><span class="pun">.</span><span class="pln">time<wbr/></span><span class="pun">.</span><span class="typ">Duration</span> <span class="pln">inbetweenTimeout</span> <span class="pun">=</span> <span class="pln">dur</span><span class="pun">(</span><span class="lit">300L</span><span class="pun">)</span>
+				<br/>
+				<span class="pun">)</span><span class="pun">;</span>
+						</div>
+					</code>
+				</div>
+				
+				<section><h2>Parameters</h2>
+<table><col class="caption"><tr><th>Name</th><th>Description</th></tr>
+<tr><td id="check">check</td><td> delegate to check if the message matches expectations (author, channel, etc)</td></tr>
+<tr><td id="timeout">timeout</td><td> timeout to wait for first message</td></tr>
+<tr><td id="totalTimeout">totalTimeout</td><td> total time to spend starting waiting for messages</td></tr>
+<tr><td id="inbetweenTimeout">inbetweenTimeout</td><td> timeout for a message after the first message. totalTimeout + inbetweenTimeout is the maximum amount of time this function runs.</td></tr>
+</table>
+</section>
+
+			</div>
+			<footer>
+				<div id="license-info">
+					
+					
+					
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

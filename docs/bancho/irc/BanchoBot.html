@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Class BanchoBot</title>
+		<link rel="stylesheet" href="../../css/style.min.css"/>
+		<script type="text/javascript" src="../../js/script.min.js"></script>
+	</head>
+	<body onload="setupDdox();">
+		<header></header>
+		<nav id="main-nav">
+			<div>
+				<noscript>
+					<p style="color: red">The search functionality needs JavaScript enabled</p>
+				</noscript>
+				<div id="symbolSearchPane" style="display: none">
+					<form action="#" method="GET">
+						<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(24);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" autofocus/>
+					</form>
+					<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../";
+document.getElementById('symbolSearchPane').style.display = 'block';</script>
+				</div>
+				<ul class="tree-view">
+					<li class="tree-view ">
+						<div class="package ">bancho
+						</div>
+				<ul class="tree-view">
+					<li>
+						<div class="module selected">
+							<a href="../../bancho/irc.html">irc</a>
+						</div>
+					</li>
+				</ul>
+					</li>
+				</ul>
+			</div>
+			<p id="main-nav-footer">
+				Built with
+				<a href="https://github.com/MartinNowak/scod">scod</a>
+			</p>
+		</nav>
+		<div id="main-contents">
+			<div>
+				<h1>Class BanchoBot</h1><p>Represents a Bancho IRC connection.
+</p>
+				<div class="prototype">
+					<code class="lang-d">
+						<div class="single-prototype">
+				<span class="kwd">class</span> <span class="typ">BanchoBot</span>
+				<span class="pun">;</span>
+						</div>
+					</code>
+				</div>
+				
+				<section><h2>Constructors</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.this.html" class="public">
+									<code>this</code>
+								</a>
+							</td>
+							<td>Prepares a bancho IRC connection with username &amp; password (can be obtained from https://osu.ppy.sh/p/irc)
+</td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Fields</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Type</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.backlogsMessage.html" class="public"><code>backlogsMessage</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">[</span><span class="lit">256</span><span class="pun">]</span></code></td><td>list of backlog which hasn't been handled by any event subscribers, oldest one will always be replaced on new ones.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.backlogsMessage.html" class="public"><code>backlogsMessage</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">[</span><span class="lit">256</span><span class="pun">]</span></code></td><td>list of backlog which hasn't been handled by any event subscribers, oldest one will always be replaced on new ones.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.backlogsQuit.html" class="public"><code>backlogsQuit</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/Quit.html"><span class="typ">Quit</span></a><span class="pun">[</span><span class="lit">256</span><span class="pun">]</span></code></td><td>list of backlog which hasn't been handled by any event subscribers, oldest one will always be replaced on new ones.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.backlogsQuit.html" class="public"><code>backlogsQuit</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/Quit.html"><span class="typ">Quit</span></a><span class="pun">[</span><span class="lit">256</span><span class="pun">]</span></code></td><td>list of backlog which hasn't been handled by any event subscribers, oldest one will always be replaced on new ones.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.backlogsTopic.html" class="public"><code>backlogsTopic</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/TopicChange.html"><span class="typ">TopicChange</span></a><span class="pun">[</span><span class="lit">8</span><span class="pun">]</span></code></td><td>list of backlog which hasn't been handled by any event subscribers, oldest one will always be replaced on new ones.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.backlogsTopic.html" class="public"><code>backlogsTopic</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/TopicChange.html"><span class="typ">TopicChange</span></a><span class="pun">[</span><span class="lit">8</span><span class="pun">]</span></code></td><td>list of backlog which hasn't been handled by any event subscribers, oldest one will always be replaced on new ones.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.client.html" class="public"><code>client</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="pln">vibe<wbr/></span><span class="pun">.</span><span class="pln">core<wbr/></span><span class="pun">.</span><span class="pln">net<wbr/></span><span class="pun">.</span><span class="typ">TCPConnection</span></code></td><td></td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.password.html" class="public"><code>password</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td></td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processorsMessage.html" class="public"><code>processorsMessage</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">)</span></code></td><td>list of event subscribers. Gets removed automatically when called and returns true, otherwise caller has to remove it.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processorsMessage.html" class="public"><code>processorsMessage</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">)</span></code></td><td>list of event subscribers. Gets removed automatically when called and returns true, otherwise caller has to remove it.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processorsQuit.html" class="public"><code>processorsQuit</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/Quit.html"><span class="typ">Quit</span></a><span class="pun">)</span></code></td><td>list of event subscribers. Gets removed automatically when called and returns true, otherwise caller has to remove it.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processorsQuit.html" class="public"><code>processorsQuit</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/Quit.html"><span class="typ">Quit</span></a><span class="pun">)</span></code></td><td>list of event subscribers. Gets removed automatically when called and returns true, otherwise caller has to remove it.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processorsTopic.html" class="public"><code>processorsTopic</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/TopicChange.html"><span class="typ">TopicChange</span></a><span class="pun">)</span></code></td><td>list of event subscribers. Gets removed automatically when called and returns true, otherwise caller has to remove it.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processorsTopic.html" class="public"><code>processorsTopic</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/TopicChange.html"><span class="typ">TopicChange</span></a><span class="pun">)</span></code></td><td>list of event subscribers. Gets removed automatically when called and returns true, otherwise caller has to remove it.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.rooms.html" class="public"><code>rooms</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/OsuRoom.html"><span class="typ">OsuRoom</span></a><span class="pun">[]</span></code></td><td></td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.username.html" class="public"><code>username</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td></td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Methods</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clear.html" class="public">
+									<code>clear</code>
+								</a>
+							</td>
+							<td>Clears all logs, called by connect
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clearMessageLog.html" class="public">
+									<code>clearMessageLog</code>
+								</a>
+							</td>
+							<td>Clears all backlog &amp; removes all event listeners for the object type.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clearMessageLog.html" class="public">
+									<code>clearMessageLog</code>
+								</a>
+							</td>
+							<td>Clears all backlog &amp; removes all event listeners for the object type.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clearQuitLog.html" class="public">
+									<code>clearQuitLog</code>
+								</a>
+							</td>
+							<td>Clears all backlog &amp; removes all event listeners for the object type.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clearQuitLog.html" class="public">
+									<code>clearQuitLog</code>
+								</a>
+							</td>
+							<td>Clears all backlog &amp; removes all event listeners for the object type.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clearTopicLog.html" class="public">
+									<code>clearTopicLog</code>
+								</a>
+							</td>
+							<td>Clears all backlog &amp; removes all event listeners for the object type.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.clearTopicLog.html" class="public">
+									<code>clearTopicLog</code>
+								</a>
+							</td>
+							<td>Clears all backlog &amp; removes all event listeners for the object type.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.connect.html" class="public">
+									<code>connect</code>
+								</a>
+							</td>
+							<td>Connects to irc.ppy.sh:6667 and authenticates with username &amp; password. Blocks and processes all messages sent by the TCP socket. Recommended to be called in runTask.
+Cleans up on exit properly and is safe to be called again once returned.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.createRoom.html" class="public">
+									<code>createRoom</code>
+								</a>
+							</td>
+							<td>Creates a new managed room with a title and returns it.
+Automatically gets room ID &amp; game ID.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.disconnect.html" class="public">
+									<code>disconnect</code>
+								</a>
+							</td>
+							<td>Disconnects &amp; closes the TCP socket.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.fetchOldMessageLog.html" class="public">
+									<code>fetchOldMessageLog</code>
+								</a>
+							</td>
+							<td>Goes through the backlog and removes and optionally returns all matching objects.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.fetchOldMessageLog.html" class="public">
+									<code>fetchOldMessageLog</code>
+								</a>
+							</td>
+							<td>Goes through the backlog and removes and optionally returns all matching objects.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.fetchOldQuitLog.html" class="public">
+									<code>fetchOldQuitLog</code>
+								</a>
+							</td>
+							<td>Goes through the backlog and removes and optionally returns all matching objects.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.fetchOldQuitLog.html" class="public">
+									<code>fetchOldQuitLog</code>
+								</a>
+							</td>
+							<td>Goes through the backlog and removes and optionally returns all matching objects.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.fetchOldTopicLog.html" class="public">
+									<code>fetchOldTopicLog</code>
+								</a>
+							</td>
+							<td>Goes through the backlog and removes and optionally returns all matching objects.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.fetchOldTopicLog.html" class="public">
+									<code>fetchOldTopicLog</code>
+								</a>
+							</td>
+							<td>Goes through the backlog and removes and optionally returns all matching objects.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processMessage.html" class="public">
+									<code>processMessage</code>
+								</a>
+							</td>
+							<td>Calls all event subscribers to try to match this object, otherwise replace the oldest element in the backlog with this.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processMessage.html" class="public">
+									<code>processMessage</code>
+								</a>
+							</td>
+							<td>Calls all event subscribers to try to match this object, otherwise replace the oldest element in the backlog with this.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processQuit.html" class="public">
+									<code>processQuit</code>
+								</a>
+							</td>
+							<td>Calls all event subscribers to try to match this object, otherwise replace the oldest element in the backlog with this.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processQuit.html" class="public">
+									<code>processQuit</code>
+								</a>
+							</td>
+							<td>Calls all event subscribers to try to match this object, otherwise replace the oldest element in the backlog with this.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processTopic.html" class="public">
+									<code>processTopic</code>
+								</a>
+							</td>
+							<td>Calls all event subscribers to try to match this object, otherwise replace the oldest element in the backlog with this.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.processTopic.html" class="public">
+									<code>processTopic</code>
+								</a>
+							</td>
+							<td>Calls all event subscribers to try to match this object, otherwise replace the oldest element in the backlog with this.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.sendMessage.html" class="public">
+									<code>sendMessage</code>
+								</a>
+							</td>
+							<td>Sends a message to a username or channel (#channel).
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForMessage.html" class="public">
+									<code>waitForMessage</code>
+								</a>
+							</td>
+							<td>Waits for an event or returns one which is in the backlog already. Removes matching backlog entries.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForMessage.html" class="public">
+									<code>waitForMessage</code>
+								</a>
+							</td>
+							<td>Waits for an event or returns one which is in the backlog already. Removes matching backlog entries.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForMessageBunch.html" class="public">
+									<code>waitForMessageBunch</code>
+								</a>
+							</td>
+							<td>Waits for multiple messages sent at once and returns them.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForQuit.html" class="public">
+									<code>waitForQuit</code>
+								</a>
+							</td>
+							<td>Waits for an event or returns one which is in the backlog already. Removes matching backlog entries.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForQuit.html" class="public">
+									<code>waitForQuit</code>
+								</a>
+							</td>
+							<td>Waits for an event or returns one which is in the backlog already. Removes matching backlog entries.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForTopic.html" class="public">
+									<code>waitForTopic</code>
+								</a>
+							</td>
+							<td>Waits for an event or returns one which is in the backlog already. Removes matching backlog entries.
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/BanchoBot.waitForTopic.html" class="public">
+									<code>waitForTopic</code>
+								</a>
+							</td>
+							<td>Waits for an event or returns one which is in the backlog already. Removes matching backlog entries.
+</td>
+						</tr>
+					</table>
+				</section>
+				<section><h2>Examples</h2>
+<pre class="code"><code class="lang-d"><span class="typ">BanchoBot </span><span class="pln">bot </span><span class="pun">= </span><span class="kwd">new </span><span class="typ">BanchoBot</span><span class="pun">(</span><span class="str">"User"</span><span class="pun">, </span><span class="str">"hunter2"</span><span class="pun">);
+</span><span class="pln">runTask</span><span class="pun">({
+</span><span class="kwd">while </span><span class="pun">(</span><span class="kwd">true</span><span class="pun">)
+{
+</span><span class="pln">bot<wbr/></span><span class="pun">.</span><span class="pln">connect</span><span class="pun">();
+</span><span class="pln">logDiagnostic</span><span class="pun">(</span><span class="str">"Got disconnected from bancho..."</span><span class="pun">);
+</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+}
+});</span></code></pre>
+</section>
+
+			</div>
+			<footer>
+				<div id="license-info">
+					
+					
+					
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>
