@@ -53,7 +53,123 @@ Automatically does ratelimiting by not sending more than a message every 2 secon
 						</div>
 					</code>
 				</div>
-				
+				<section><p>All slot indices are 0 based.
+</p>
+</section>
+
+				<section><h2>Fields</h2>
+					<table>
+						<col class="caption"/>
+						<tr>
+							<th>Name</th><th>Type</th><th>Description</th>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onBeatmapChanged.html" class="public"><code>onBeatmapChanged</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pln">bancho<wbr/></span><span class="pun">.</span><span class="pln">irc<wbr/></span><span class="pun">.</span><span class="typ">BeatmapInfo</span><span class="pun">)</span></code></td><td>Host changed map
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onBeatmapPending.html" class="public"><code>onBeatmapPending</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pun">)</span></code></td><td>Host is changing beatmap
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onClosed.html" class="public"><code>onClosed</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pun">)</span></code></td><td>The room has been closed
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onCountdownFinished.html" class="public"><code>onCountdownFinished</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pun">)</span></code></td><td>A timer finished
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onMatchEnd.html" class="public"><code>onMatchEnd</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pun">)</span></code></td><td>Match has ended (all players finished)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onMatchStart.html" class="public"><code>onMatchStart</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pun">)</span></code></td><td>Match has started
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onMessage.html" class="public"><code>onMessage</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><a href="../../bancho/irc/Message.html"><span class="typ">Message</span></a><span class="pun">)</span></code></td><td>A message by anyone has been sent
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onPlayerFinished.html" class="public"><code>onPlayerFinished</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="typ">string</span><span class="pun">, </span><span class="typ">long</span><span class="pun">, </span><span class="typ">bool</span><span class="pun">)</span></code></td><td>A user finished playing. username + score + passed
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onPlayersReady.html" class="public"><code>onPlayersReady</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="pun">)</span></code></td><td>emitted when all players are ready
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onUserHost.html" class="public"><code>onUserHost</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="typ">string</span><span class="pun">)</span></code></td><td>username as argument
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onUserJoin.html" class="public"><code>onUserJoin</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="typ">string</span><span class="pun">, </span><span class="typ">ubyte</span><span class="pun">)</span></code></td><td>username + slot (0 based) as argument
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onUserLeave.html" class="public"><code>onUserLeave</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="typ">string</span><span class="pun">)</span></code></td><td>username as argument
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onUserMove.html" class="public"><code>onUserMove</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="typ">string</span><span class="pun">, </span><span class="typ">ubyte</span><span class="pun">)</span></code></td><td>username + slot (0 based) as argument
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.onUserTeamChange.html" class="public"><code>onUserTeamChange</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">void</span> <span class="kwd">delegate</span><span class="pun">(</span><span class="typ">string</span><span class="pun">, </span><a href="../../bancho/irc/Team.html"><span class="typ">Team</span></a><span class="pun">)</span></code></td><td>username &amp; team as argument
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.slots.html" class="public"><code>slots</code></a>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/OsuRoom.Settings.Player.html"><span class="typ">OsuRoom<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Settings<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Player</span></a><span class="pun">[</span><span class="lit">16</span><span class="pun">]</span></code></td><td>Automatically managed state of player slots, empty slots are Player.init
+</td>
+						</tr>
+					</table>
+				</section>
 				<section><h2>Properties</h2>
 					<table>
 						<col class="caption"/>
@@ -62,9 +178,37 @@ Automatically does ratelimiting by not sending more than a message every 2 secon
 						</tr>
 						<tr>
 							<td>
+								<a href="../../bancho/irc/OsuRoom.channel.html" class="public property"><code>channel</code></a><span class="tableEntryAnnotation">[get]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Returns the channel name as on IRC
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.host.html" class="public property"><code>host</code></a><span class="tableEntryAnnotation">[set]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Gives host to a player
+</td>
+						</tr>
+						<tr>
+							<td>
 								<a href="../../bancho/irc/OsuRoom.locked.html" class="public property"><code>locked</code></a><span class="tableEntryAnnotation">[set]</span>
 							</td>
 							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">bool</span></code></td><td>Property to lock slots (disallow changing slots &amp; joining)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.map.html" class="public property"><code>map</code></a><span class="tableEntryAnnotation">[set]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">string</span></code></td><td>Changes the map to a beatmap ID (b/ url)
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.mods.html" class="public property"><code>mods</code></a><span class="tableEntryAnnotation">[set]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/Mod.html"><span class="typ">Mod</span></a><span class="pun">[]</span></code></td><td>Changes the mods in this lobby (pass FreeMod first if you want FreeMod)
 </td>
 						</tr>
 						<tr>
@@ -93,6 +237,13 @@ Automatically does ratelimiting by not sending more than a message every 2 secon
 								<a href="../../bancho/irc/OsuRoom.settings.html" class="public property"><code>settings</code></a><span class="tableEntryAnnotation">[get]</span>
 							</td>
 							<td class="typecol"><code class="prettyprint lang-d"><a href="../../bancho/irc/OsuRoom.Settings.html"><span class="typ">OsuRoom<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Settings</span></a></code></td><td>Returns the current mp settings
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.size.html" class="public property"><code>size</code></a><span class="tableEntryAnnotation">[set]</span>
+							</td>
+							<td class="typecol"><code class="prettyprint lang-d"><span class="typ">ubyte</span></code></td><td>Changes the slot limit of this lobby
 </td>
 						</tr>
 					</table>
@@ -141,15 +292,6 @@ Automatically does ratelimiting by not sending more than a message every 2 secon
 						</tr>
 						<tr>
 							<td>
-								<a href="../../bancho/irc/OsuRoom.host.html" class="public">
-									<code>host</code>
-								</a>
-							</td>
-							<td>Gives host to a player
-</td>
-						</tr>
-						<tr>
-							<td>
 								<a href="../../bancho/irc/OsuRoom.invite.html" class="public">
 									<code>invite</code>
 								</a>
@@ -168,29 +310,101 @@ Automatically does ratelimiting by not sending more than a message every 2 secon
 						</tr>
 						<tr>
 							<td>
-								<a href="../../bancho/irc/OsuRoom.map.html" class="public">
-									<code>map</code>
-								</a>
-							</td>
-							<td>Changes the map to a beatmap ID (b/ url)
-</td>
-						</tr>
-						<tr>
-							<td>
-								<a href="../../bancho/irc/OsuRoom.mods.html" class="public">
-									<code>mods</code>
-								</a>
-							</td>
-							<td>Changes the mods in this lobby (pass FreeMod first if you want FreeMod)
-</td>
-						</tr>
-						<tr>
-							<td>
 								<a href="../../bancho/irc/OsuRoom.move.html" class="public">
 									<code>move</code>
 								</a>
 							</td>
 							<td>Moves a player to another slot
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processClosed.html" class="public">
+									<code>processClosed</code>
+								</a>
+							</td>
+							<td>Processes a room closed event
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processFinishPlaying.html" class="public">
+									<code>processFinishPlaying</code>
+								</a>
+							</td>
+							<td>Processes a user finish playing event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processHost.html" class="public">
+									<code>processHost</code>
+								</a>
+							</td>
+							<td>Processes a user host event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processJoin.html" class="public">
+									<code>processJoin</code>
+								</a>
+							</td>
+							<td>Processes a user join event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processLeave.html" class="public">
+									<code>processLeave</code>
+								</a>
+							</td>
+							<td>Processes a user leave event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processMatchFinish.html" class="public">
+									<code>processMatchFinish</code>
+								</a>
+							</td>
+							<td>Processes a match end event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processMove.html" class="public">
+									<code>processMove</code>
+								</a>
+							</td>
+							<td>Processes a user move event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processSize.html" class="public">
+									<code>processSize</code>
+								</a>
+							</td>
+							<td>Processes a room size change event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.processTeam.html" class="public">
+									<code>processTeam</code>
+								</a>
+							</td>
+							<td>Processes a user team switch event &amp; updates the state
+</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="../../bancho/irc/OsuRoom.ratelimit.html" class="public">
+									<code>ratelimit</code>
+								</a>
+							</td>
+							<td>Manually wait until you can send a message again
 </td>
 						</tr>
 						<tr>
@@ -227,15 +441,6 @@ Automatically does ratelimiting by not sending more than a message every 2 secon
 								</a>
 							</td>
 							<td>Sets a timer using !mp timer
-</td>
-						</tr>
-						<tr>
-							<td>
-								<a href="../../bancho/irc/OsuRoom.size.html" class="public">
-									<code>size</code>
-								</a>
-							</td>
-							<td>Changes the slot limit of this lobby
 </td>
 						</tr>
 						<tr>
@@ -346,6 +551,166 @@ The timeout can be canceled using abortTimer.
 })<wbr/>.</span><span class="pln">join</span><span class="pun">();
 </span><span class="pln">running </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
 </span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">disconnect</span><span class="pun">();
+</span><span class="pln">botTask<wbr/></span><span class="pun">.</span><span class="pln">join</span><span class="pun">();
+</span></code></pre>
+</section>
+<section><h2>Example</h2>
+<p>Simple auto host rotate bot
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">import </span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">range</span><span class="pun">;
+
+<a href="../../bancho/irc/BanchoBot.html"></span><span class="typ">BanchoBot</span></a><span class="pln"> banchoConnection </span><span class="pun">= </span><span class="kwd">new <a href="../../bancho/irc/BanchoBot.html"></span><span class="typ">BanchoBot</span></a><span class="pun">(</span><span class="str">"WebFreak"</span><span class="pun">, </span><span class="str">""</span><span class="pun">);
+</span><span class="typ">bool </span><span class="pln">running </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+</span><span class="kwd">auto </span><span class="pln">botTask </span><span class="pun">= </span><span class="pln">runTask</span><span class="pun">({
+	</span><span class="kwd">while </span><span class="pun">(</span><span class="pln">running</span><span class="pun">)
+	{
+		</span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">connect</span><span class="pun">();
+		</span><span class="pln">logDiagnostic</span><span class="pun">(</span><span class="str">"Got disconnected from bancho..."</span><span class="pun">);
+		</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+	}
+});
+</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">3<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+</span><span class="typ">OsuRoom </span><span class="pln">room </span><span class="pun">= </span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">createRoom</span><span class="pun">(</span><span class="str">"4*+ auto host rotate (join time based)"</span><span class="pun">);
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">invite</span><span class="pun">(</span><span class="str">"WebFreak"</span><span class="pun">);
+</span><span class="pln">runTask</span><span class="pun">({ </span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">password </span><span class="pun">= </span><span class="str">""</span><span class="pun">; </span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">size </span><span class="pun">= </span><span class="lit">8</span><span class="pun">; </span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">mods </span><span class="pun">= [<a href="../../bancho/irc/Mod.html#FreeMod"></span><span class="typ">Mod<wbr/></span><span class="pun">.</span><span class="typ">FreeMod</span></a><span class="pun">]; });
+</span><span class="typ">string</span><span class="pun">[] </span><span class="pln">hostOrder</span><span class="pun">;
+</span><span class="pln">size_t currentHost</span><span class="pun">;
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onClosed </span><span class="pun">~= () {
+	</span><span class="pln">running </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+	</span><span class="pln">banchoConnection<wbr/></span><span class="pun">.</span><span class="pln">disconnect</span><span class="pun">();
+	</span><span class="pln">botTask<wbr/></span><span class="pun">.</span><span class="pln">join</span><span class="pun">();
+};
+
+</span><span class="typ">bool </span><span class="pln">beatmapChosen </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+</span><span class="typ">bool </span><span class="pln">choosingMap </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+</span><span class="typ">bool </span><span class="pln">startedChoosingTimer </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+</span><span class="typ">Timer </span><span class="pln">choosingTimer</span><span class="pun">;
+</span><span class="typ">string </span><span class="pln">nextHost</span><span class="pun">(</span><span class="typ">bool </span><span class="pln">deleteCurrent </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">)
+{
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">deleteCurrent</span><span class="pun">)
+		</span><span class="pln">hostOrder </span><span class="pun">= </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="lit">0 </span><span class="pun">.. </span><span class="pln">currentHost</span><span class="pun">] ~ </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost </span><span class="pun">+ </span><span class="lit">1 </span><span class="pun">.. $];
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length </span><span class="pun">== </span><span class="lit">0</span><span class="pun">)
+	{
+		</span><span class="com">// everyone left
+		//room.close();
+		</span><span class="kwd">return null</span><span class="pun">;
+	}
+	</span><span class="kwd">else
+	</span><span class="pun">{
+		</span><span class="kwd">if </span><span class="pun">(!</span><span class="pln">deleteCurrent</span><span class="pun">)
+			</span><span class="pln">currentHost </span><span class="pun">= (</span><span class="pln">currentHost </span><span class="pun">+ </span><span class="lit">1</span><span class="pun">) % </span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length</span><span class="pun">;
+		</span><span class="kwd">else if </span><span class="pun">(</span><span class="pln">currentHost </span><span class="pun">&gt;= </span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length</span><span class="pun">)
+			</span><span class="pln">currentHost </span><span class="pun">= </span><span class="lit">0</span><span class="pun">;
+		</span><span class="kwd">auto </span><span class="pln">user </span><span class="pun">= </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost</span><span class="pun">];
+		</span><span class="kwd">try
+		</span><span class="pun">{
+			</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">playerByName</span><span class="pun">(</span><span class="pln">user</span><span class="pun">);
+			</span><span class="pln">beatmapChosen </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+			</span><span class="pln">choosingMap </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+			</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">host </span><span class="pun">= </span><span class="pln">user</span><span class="pun">;
+			</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">choosingTimer </span><span class="pun">&amp;&amp; </span><span class="pln">choosingTimer<wbr/></span><span class="pun">.</span><span class="pln">pending</span><span class="pun">)
+				</span><span class="pln">choosingTimer<wbr/></span><span class="pun">.</span><span class="pln">stop</span><span class="pun">();
+			</span><span class="pln">choosingTimer </span><span class="pun">= <a href="../../bancho/irc/OsuRoom.setTimer.html"></span><span class="pln">setTimer</span></a><span class="pun">(</span><span class="lit">40<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">, {
+				</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">choosingMap </span><span class="pun">|| !</span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length</span><span class="pun">)
+					</span><span class="kwd">return</span><span class="pun">;
+				</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(
+					</span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost</span><span class="pun">] ~ </span><span class="str">": please pick a map or next host will be picked!"</span><span class="pun">);
+				</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">setTimer</span><span class="pun">(</span><span class="lit">60<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+				</span><span class="pln">startedChoosingTimer </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+			});
+			</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length</span><span class="pun">)
+				</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"Next hosts are " </span><span class="pun">~ </span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">cycle<wbr/></span><span class="pun">.</span><span class="pln">drop</span><span class="pun">(</span><span class="pln">currentHost </span><span class="pun">+ </span><span class="lit">1</span><span class="pun">)
+						<wbr/>.</span><span class="pln">take</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="lit">3</span><span class="pun">, </span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length </span><span class="pun">- </span><span class="lit">1</span><span class="pun">))<wbr/>.</span><span class="pln">join</span><span class="pun">(</span><span class="str">", "</span><span class="pun">));
+			</span><span class="kwd">return </span><span class="pln">user</span><span class="pun">;
+		}
+		</span><span class="kwd">catch </span><span class="pun">(</span><span class="typ">Exception</span><span class="pun">)
+		{
+			</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"Tried to give host to " </span><span class="pun">~ </span><span class="pln">user </span><span class="pun">~ </span><span class="str">" but they left?"</span><span class="pun">);
+			</span><span class="kwd">return </span><span class="pln">nextHost</span><span class="pun">(</span><span class="kwd">true</span><span class="pun">);
+		}
+	}
+}
+
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onBeatmapPending </span><span class="pun">~= () {
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">beatmapChosen</span><span class="pun">)
+		</span><span class="kwd">return</span><span class="pun">;
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">choosingTimer </span><span class="pun">&amp;&amp; </span><span class="pln">choosingTimer<wbr/></span><span class="pun">.</span><span class="pln">pending</span><span class="pun">)
+		</span><span class="pln">choosingTimer<wbr/></span><span class="pun">.</span><span class="pln">stop</span><span class="pun">();
+	</span><span class="pln">choosingMap </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">startedChoosingTimer</span><span class="pun">)
+	{
+		</span><span class="pln">startedChoosingTimer </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">abortTimer</span><span class="pun">();
+	}
+	</span><span class="pln">choosingTimer </span><span class="pun">= <a href="../../bancho/irc/OsuRoom.setTimer.html"></span><span class="pln">setTimer</span></a><span class="pun">(</span><span class="lit">60<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">, {
+		</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">beatmapChosen </span><span class="pun">|| !</span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length</span><span class="pun">)
+			</span><span class="kwd">return</span><span class="pun">;
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost</span><span class="pun">] ~ </span><span class="str">": please pick a map or next host will be picked!"</span><span class="pun">);
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">setTimer</span><span class="pun">(</span><span class="lit">30<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+		</span><span class="pln">startedChoosingTimer </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+	});
+};
+
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onBeatmapChanged </span><span class="pun">~= (</span><span class="pln">beatmap</span><span class="pun">) {
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">choosingTimer </span><span class="pun">&amp;&amp; </span><span class="pln">choosingTimer<wbr/></span><span class="pun">.</span><span class="pln">pending</span><span class="pun">)
+		</span><span class="pln">choosingTimer<wbr/></span><span class="pun">.</span><span class="pln">stop</span><span class="pun">();
+	</span><span class="pln">beatmapChosen </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+};
+
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onCountdownFinished </span><span class="pun">~= () {
+	</span><span class="kwd">if </span><span class="pun">(!</span><span class="pln">beatmapChosen</span><span class="pun">)
+		</span><span class="pln">nextHost</span><span class="pun">();
+};
+
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onUserHost </span><span class="pun">~= (</span><span class="pln">user</span><span class="pun">) {
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">user </span><span class="pun">!= </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost</span><span class="pun">])
+	{
+		</span><span class="typ">string </span><span class="pln">s </span><span class="pun">= </span><span class="pln">nextHost</span><span class="pun">();
+		</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">s </span><span class="pun">!= </span><span class="pln">user</span><span class="pun">)
+			</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">sendMessage</span><span class="pun">(</span><span class="str">"Host passed elsewhere, passing where it was supposed to go next"</span><span class="pun">);
+	}
+};
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onUserJoin </span><span class="pun">~= (</span><span class="pln">user</span><span class="pun">, </span><span class="pln">slot</span><span class="pun">) {
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">canFind</span><span class="pun">(</span><span class="pln">user</span><span class="pun">))
+		</span><span class="kwd">return</span><span class="pun">;
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">hostOrder<wbr/></span><span class="pun">.</span><span class="pln">length</span><span class="pun">)
+	{
+		</span><span class="com">// insert before current host
+		</span><span class="pln">hostOrder </span><span class="pun">= </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="lit">0 </span><span class="pun">.. </span><span class="pln">currentHost</span><span class="pun">] ~ </span><span class="pln">user </span><span class="pun">~ </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost </span><span class="pun">.. $];
+		</span><span class="pln">currentHost</span><span class="pun">++;
+	}
+	</span><span class="kwd">else
+	</span><span class="pun">{
+		</span><span class="pln">hostOrder </span><span class="pun">= [</span><span class="pln">user</span><span class="pun">]; </span><span class="com">// first join!
+		</span><span class="pln">nextHost</span><span class="pun">();
+	}
+};
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onUserLeave </span><span class="pun">~= (</span><span class="pln">user</span><span class="pun">) {
+	</span><span class="kwd">if </span><span class="pun">(</span><span class="pln">user </span><span class="pun">== </span><span class="pln">hostOrder</span><span class="pun">[</span><span class="pln">currentHost</span><span class="pun">])
+		</span><span class="pln">nextHost</span><span class="pun">(</span><span class="kwd">true</span><span class="pun">);
+};
+</span><span class="typ">bool </span><span class="pln">startedLongTimer</span><span class="pun">;
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onBeatmapChanged </span><span class="pun">~= (</span><span class="pln">beatmap</span><span class="pun">) {
+	</span><span class="kwd">if </span><span class="pun">(!</span><span class="pln">startedLongTimer</span><span class="pun">)
+	{
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">start</span><span class="pun">(</span><span class="lit">3<wbr/></span><span class="pun">.</span><span class="pln">minutes</span><span class="pun">);
+		</span><span class="pln">startedLongTimer </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+	}
+};
+</span><span class="typ">bool </span><span class="pln">startedTimer</span><span class="pun">;
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onPlayersReady </span><span class="pun">~= () {
+	</span><span class="kwd">if </span><span class="pun">(!</span><span class="pln">startedTimer</span><span class="pun">)
+	{
+		</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">start</span><span class="pun">(</span><span class="lit">15<wbr/></span><span class="pun">.</span><span class="pln">seconds</span><span class="pun">);
+		</span><span class="pln">startedTimer </span><span class="pun">= </span><span class="kwd">true</span><span class="pun">;
+	}
+};
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onMatchStart </span><span class="pun">~= () {
+	</span><span class="pln">startedTimer </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+	</span><span class="pln">startedLongTimer </span><span class="pun">= </span><span class="kwd">false</span><span class="pun">;
+	</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">password </span><span class="pun">= </span><span class="str">""</span><span class="pun">;
+};
+</span><span class="pln">room<wbr/></span><span class="pun">.</span><span class="pln">onMatchEnd </span><span class="pun">~= () { </span><span class="pln">nextHost</span><span class="pun">(); };
 </span><span class="pln">botTask<wbr/></span><span class="pun">.</span><span class="pln">join</span><span class="pun">();
 </span></code></pre>
 </section>

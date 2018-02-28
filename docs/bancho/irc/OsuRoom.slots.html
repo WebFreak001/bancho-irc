@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<title>Function OsuRoom.host</title>
+		<title>Variable OsuRoom.slots</title>
 		<link rel="stylesheet" href="../../css/style.min.css"/>
 		<script type="text/javascript" src="../../js/script.min.js"></script>
 	</head>
@@ -42,17 +42,25 @@ document.getElementById('symbolSearchPane').style.display = 'block';</script>
 		</nav>
 		<div id="main-contents">
 			<div>
-				<h1>Function OsuRoom.host</h1><p>Gives host to a player
+				<h1>Variable OsuRoom.slots</h1><p>Automatically managed state of player slots, empty slots are Player.init
 </p>
 				<div class="prototype">
 					<code class="lang-d">
 						<div class="single-prototype">
-				<span class="typ">void</span> <span class="pln">host</span>
-				<span class="pun">(</span>
+				<span class="kwd">class</span> <a href="../../bancho/irc/OsuRoom.html"><span class="typ">OsuRoom</span></a>
 				<br/>
-				&nbsp;&nbsp;<span class="typ">string</span> <span class="pln">player</span>
+				<span class="pun">
+					{
+					<br/>
+				</span>
+				&nbsp;&nbsp;<span class="com">// ...</span>
 				<br/>
-				<span class="pun">)</span><span class="pln"> </span><span class="kwd">@property</span><span class="pun">;</span>
+				&nbsp;&nbsp;<a href="../../bancho/irc/OsuRoom.Settings.Player.html"><span class="typ">OsuRoom<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Settings<wbr/></span><span class="pun">.<wbr/></span><span class="typ">Player</span></a><span class="pun">[</span><span class="lit">16</span><span class="pun">]</span> <span class="pln">slots</span>
+				<span class="pun">;</span>
+				<br/>
+				&nbsp;&nbsp;<span class="com">// ...</span>
+				<br/>
+				<span class="pun">}</span>
 						</div>
 					</code>
 				</div>

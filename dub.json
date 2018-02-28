@@ -4,7 +4,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"vibe-d:core": "*",
-		"vibe-d:stream": "*"
+		"vibe-d:stream": "*",
+		"eventsystem": "~>1.2.0"
 	},
 	"uncomment for documentation generation: -ddoxTool": "scod"
 }

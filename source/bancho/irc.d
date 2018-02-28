@@ -10,6 +10,7 @@ import std.datetime.stopwatch;
 import std.datetime.systime;
 import std.datetime.timezone;
 import std.functional;
+import std.path;
 import std.string;
 import std.typecons;
 
@@ -17,6 +18,11 @@ import vibe.core.core;
 import vibe.core.log;
 import vibe.core.net;
 import vibe.stream.operations;
+
+import tinyevent;
+
+/// Username of BanchoBot (for sending !mp commands & checking source)
+static immutable string banchoBotNick = "BanchoBot";
 
 private
 {
@@ -99,6 +105,33 @@ struct Quit
 	string reason;
 }
 
+struct BeatmapInfo
+{
+	/// b/ ID of the beatmap, extracted from url. Empty if couldn't be parsed
+	string id;
+	/// URL to the beatmap
+	string url;
+	/// Artist + Name + Difficulty
+	string name;
+
+	/// Parses a map in the format `Ariabl'eyeS - Kegare Naki Bara Juuji (Short ver.) [Rose†kreuz] (https://osu.ppy.sh/b/1239875)`
+	static BeatmapInfo parseChange(string map)
+	{
+		BeatmapInfo ret;
+		if (map.endsWith(")"))
+		{
+			auto start = map.lastIndexOf("(");
+			ret.name = map[0 .. start].strip;
+			ret.url = map[start + 1 .. $ - 1];
+			if (ret.url.startsWith("https://osu.ppy.sh/b/"))
+				ret.id = ret.url["https://osu.ppy.sh/b/".length .. $];
+		}
+		else
+			ret.name = map;
+		return ret;
+	}
+}
+
 /// Utility mixin template implementing dynamic timeout based event subscribing + static backlog
 /// Creates methods waitFor<fn>, process[fn], fetchOld[fn]Log, clear[fn]Log
 mixin template Processor(string fn, Arg, size_t backlog)
@@ -115,6 +148,8 @@ mixin template Processor(string fn, Arg, size_t backlog)
 
 	void process(Arg arg)
 	{
+		static if (is(typeof(mixin("this.preProcess" ~ fn))))
+			mixin("this.preProcess" ~ fn ~ "(arg);");
 		foreach_reverse (i, proc; processors)
 		{
 			if (proc(arg))
@@ -376,6 +411,127 @@ class BanchoBot
 		}
 	}
 
+	/// Processes messages meant for mutliplayer rooms to update their state.
+	/// called by mixin template
+	void preProcessMessage(Message message)
+	{
+		if (message.sender != banchoBotNick)
+			return;
+		foreach (room; rooms)
+		{
+			if (room.open && message.target == room.channel)
+			{
+				try
+				{
+					if (message.message == "All players are ready")
+					{
+						runTask((OsuRoom room) { room.onPlayersReady.emit(); }, room);
+						foreach (ref slot; room.slots)
+							if (slot != OsuRoom.Settings.Player.init)
+								slot.ready = true;
+						break;
+					}
+					if (message.message == "Countdown finished")
+					{
+						runTask((OsuRoom room) { room.onCountdownFinished.emit(); }, room);
+						break;
+					}
+					if (message.message == "Host is changing map...")
+					{
+						runTask((OsuRoom room) { room.onBeatmapPending.emit(); }, room);
+						break;
+					}
+					if (message.message == "The match has started!")
+					{
+						runTask((OsuRoom room) { room.onMatchStart.emit(); }, room);
+						break;
+					}
+					if (message.message == "The match has finished!")
+					{
+						room.processMatchFinish();
+						break;
+					}
+					if (message.message.startsWith("Beatmap changed to: "))
+					{
+						// Beatmap changed to: Ariabl'eyeS - Kegare Naki Bara Juuji (Short ver.) [Rose†kreuz] (https://osu.ppy.sh/b/1239875)
+						room.onBeatmapChanged.emit(BeatmapInfo.parseChange(
+								message.message["Beatmap changed to: ".length .. $]));
+						break;
+					}
+					if (message.message.startsWith("Changed match to size "))
+					{
+						room.processSize(message.message["Changed match to size ".length .. $].strip.to!ubyte);
+						break;
+					}
+					if (message.message.endsWith(" left the game."))
+					{
+						room.processLeave(message.message[0 .. $ - " left the game.".length]);
+						break;
+					}
+					if (message.message.endsWith(" changed to Blue"))
+					{
+						room.processTeam(message.message[0 .. $ - " changed to Blue.".length], Team.Blue);
+						break;
+					}
+					if (message.message.endsWith(" changed to Red"))
+					{
+						room.processTeam(message.message[0 .. $ - " changed to Red.".length], Team.Red);
+						break;
+					}
+					if (message.message.endsWith(" became the host."))
+					{
+						room.processHost(message.message[0 .. $ - " became the host.".length]);
+						break;
+					}
+					size_t index;
+					if ((index = message.message.indexOf(" joined in slot ")) != -1)
+					{
+						if (message.message.endsWith("."))
+							message.message.length--;
+						room.processJoin(message.message[0 .. index],
+								cast(ubyte)(message.message[index + " joined in slot ".length .. $].to!ubyte - 1));
+						break;
+					}
+					if ((index = message.message.indexOf(" moved to slot ")) != -1)
+					{
+						if (message.message.endsWith("."))
+							message.message.length--;
+						room.processMove(message.message[0 .. index],
+								cast(ubyte)(message.message[index + " moved to slot ".length .. $].to!int - 1));
+						break;
+					}
+					if ((index = message.message.indexOf(" finished playing (Score: ")) != -1)
+					{
+						string user = message.message[0 .. index];
+						long score = message.message[index
+							+ " finished playing (Score: ".length .. $ - ", PASSED).".length].to!long;
+						bool pass = message.message.endsWith("PASSED).");
+						room.processFinishPlaying(user, score, pass);
+						break;
+					}
+					if (message.message == "Closed the match")
+					{
+						room.processClosed();
+						break;
+					}
+					break;
+				}
+				catch (Exception e)
+				{
+					if (room.fatal)
+						room.close();
+					else
+					{
+						room.sendMessage("An internal exception occurred, room will be closed if this happens again. "
+								~ e.msg ~ " in " ~ e.file.baseName ~ ":" ~ e.line.to!string);
+						room.fatal = true;
+					}
+					break;
+				}
+			}
+		}
+	}
+
 	void processNumeric(int num, string line, string relevantPart)
 	{
 		// internal function processing numeric commands
@@ -413,7 +569,7 @@ class BanchoBot
 	/// Sends a message to a username or channel (#channel).
 	void sendMessage(string channel, in char[] message)
 	{
-		client.privMsg(channel, message);
+		client.privMsg(channel, message.replace("\n", " "));
 	}
 
 	/// Waits for multiple messages sent at once and returns them.
@@ -446,8 +602,8 @@ class BanchoBot
 	/// Automatically gets room ID & game ID.
 	OsuRoom createRoom(string title)
 	{
-		sendMessage("BanchoBot", "!mp make " ~ title);
-		auto msg = this.waitForMessage(a => a.sender == "BanchoBot"
+		sendMessage(banchoBotNick, "!mp make " ~ title);
+		auto msg = this.waitForMessage(a => a.sender == banchoBotNick
 				&& a.target == username && a.message.endsWith(" " ~ title), 10.seconds).message;
 		if (!msg.length)
 			return null;
@@ -463,6 +619,12 @@ class BanchoBot
 		auto room = new OsuRoom(this, msg, topic["multiplayer game #".length .. $]);
 		rooms ~= room;
 		return room;
+	}
+
+	/// internal function to remove a room from the managed rooms list
+	void unmanageRoom(OsuRoom room)
+	{
+		rooms = rooms.remove!(a => a == room, SwapStrategy.unstable);
 	}
 }
 
@@ -681,7 +843,9 @@ alias HighPriority = Flag!"highPriority";
 
 /// Represents a multiplayer lobby in osu!
 /// Automatically does ratelimiting by not sending more than a message every 2 seconds.
-class OsuRoom
+///
+/// All slot indices are 0 based.
+class OsuRoom // must be a class, don't change it
 {
 	/// Returned by !mp settings
 	struct Settings
@@ -689,10 +853,12 @@ class OsuRoom
 		/// Represents a player state in the settings result
 		struct Player
 		{
-			/// Player user information
+			/// Player user information, may not be there except for name
 			string id, url, name;
 			///
 			bool ready;
+			///
+			bool playing;
 			///
 			bool noMap;
 			///
@@ -708,7 +874,7 @@ class OsuRoom
 		/// URL to match history
 		string history;
 		/// Beatmap information
-		string beatmapID, beatmapURL, beatmapName;
+		BeatmapInfo beatmap;
 		/// Global active mods or all mods if freemods is off, contains Mod.FreeMod if on
 		Mod[] activeMods;
 		/// Type of game (coop, tag team, etc.)
@@ -722,18 +888,90 @@ class OsuRoom
 	}
 
 	private BanchoBot bot;
-	private string channel, id;
+	private string _channel, id;
 	private bool open;
 	private SysTime lastMessage;
+	private bool fatal;
+
+	/// Automatically managed state of player slots, empty slots are Player.init
+	Settings.Player[16] slots;
+	/// username as argument
+	Event!string onUserLeave;
+	/// username & team as argument
+	Event!(string, Team) onUserTeamChange;
+	/// username as argument
+	Event!string onUserHost;
+	/// username + slot (0 based) as argument
+	Event!(string, ubyte) onUserJoin;
+	/// username + slot (0 based) as argument
+	Event!(string, ubyte) onUserMove;
+	/// emitted when all players are ready
+	Event!() onPlayersReady;
+	/// Match has started
+	Event!() onMatchStart;
+	/// Match has ended (all players finished)
+	Event!() onMatchEnd;
+	/// Host is changing beatmap
+	Event!() onBeatmapPending;
+	/// Host changed map
+	Event!BeatmapInfo onBeatmapChanged;
+	/// A message by anyone has been sent
+	Event!Message onMessage;
+	/// A timer finished
+	Event!() onCountdownFinished;
+	/// A user finished playing. username + score + passed
+	Event!(string, long, bool) onPlayerFinished;
+	/// The room has been closed
+	Event!() onClosed;
 
 	private this(BanchoBot bot, string channel, string id)
 	{
 		assert(channel.startsWith("#mp_"));
 		lastMessage = Clock.currTime(UTC());
 		this.bot = bot;
-		this.channel = channel;
+		this._channel = channel;
 		this.id = id;
 		open = true;
+	}
+
+	ref Settings.Player slot(int index)
+	{
+		if (index < 0 || index >= 16)
+			throw new Exception("slot index out of bounds");
+		return slots[index];
+	}
+
+	ref Settings.Player playerByName(string name)
+	{
+		foreach (ref slot; slots)
+			if (slot.name == name)
+				return slot;
+		throw new Exception("player " ~ name ~ " not found!");
+	}
+
+	ref Settings.Player playerByName(string name, out size_t index)
+	{
+		foreach (i, ref slot; slots)
+			if (slot.name == name)
+			{
+				index = i;
+				return slot;
+			}
+		throw new Exception("player " ~ name ~ " not found!");
+	}
+
+	ubyte playerSlotByName(string name)
+	{
+		foreach (i, ref slot; slots)
+			if (slot.name == name)
+				return cast(ubyte) i;
+		throw new Exception("player " ~ name ~ " not found!");
+	}
+
+	/// Returns the channel name as on IRC
+	string channel() const @property
+	{
+		return _channel;
 	}
 
 	/// Returns the room ID as usable in the mp history URL or IRC joinable via #mp_ID
@@ -751,6 +989,8 @@ class OsuRoom
 	/// Closes the room
 	void close()
 	{
+		if (!open)
+			return;
 		sendMessage("!mp close");
 		open = false;
 	}
@@ -770,11 +1010,11 @@ class OsuRoom
 	/// Moves a player to another slot
 	void move(string player, int slot)
 	{
-		sendMessage("!mp move " ~ player.fixUsername ~ " " ~ slot.to!string);
+		sendMessage("!mp move " ~ player.fixUsername ~ " " ~ (slot + 1).to!string);
 	}
 
 	/// Gives host to a player
-	void host(string player)
+	void host(string player) @property
 	{
 		sendMessage("!mp host " ~ player.fixUsername);
 	}
@@ -804,7 +1044,7 @@ class OsuRoom
 	}
 
 	/// Changes the slot limit of this lobby
-	void size(ubyte slots)
+	void size(ubyte slots) @property
 	{
 		sendMessage("!mp size " ~ slots.to!string);
 	}
@@ -817,13 +1057,13 @@ class OsuRoom
 	}
 
 	/// Changes the mods in this lobby (pass FreeMod first if you want FreeMod)
-	void mods(Mod[] mods)
+	void mods(Mod[] mods) @property
 	{
 		sendMessage("!mp mods " ~ mods.map!(a => a.shortForm).join(" "));
 	}
 
 	/// Changes the map to a beatmap ID (b/ url)
-	void map(string id)
+	void map(string id) @property
 	{
 		sendMessage("!mp map " ~ id);
 	}
@@ -838,7 +1078,7 @@ class OsuRoom
 	/// Throws: InterruptException if timeout triggers
 	string waitForJoin(Duration timeout)
 	{
-		auto l = bot.waitForMessage(a => a.target == channel && a.sender == "BanchoBot"
+		auto l = bot.waitForMessage(a => a.target == channel && a.sender == banchoBotNick
 				&& a.message.canFind(" joined in slot "), timeout).message;
 		auto i = l.indexOf(" joined in slot ");
 		return l[0 .. i];
@@ -848,7 +1088,7 @@ class OsuRoom
 	/// Throws: InterruptException if timeout triggers
 	void waitForTimer(Duration timeout)
 	{
-		bot.waitForMessage(a => a.target == channel && a.sender == "BanchoBot"
+		bot.waitForMessage(a => a.target == channel && a.sender == banchoBotNick
 				&& a.message == "Countdown finished", timeout);
 	}
 
@@ -874,14 +1114,9 @@ class OsuRoom
 			sendMessage("!mp start " ~ after.total!"seconds".to!string);
 	}
 
-	/// Sends a message with a 2 second ratelimit
-	/// Params:
-	///   message = raw message to send
-	///   highPriority = if yes, already send after a 1.2 second ratelimit (before others)
-	void sendMessage(in char[] message, HighPriority highPriority = HighPriority.no)
+	/// Manually wait until you can send a message again
+	void ratelimit(HighPriority highPriority = HighPriority.no)
 	{
-		if (!open)
-			throw new Exception("Attempted to send message in closed room");
 		auto now = Clock.currTime(UTC());
 		auto len = highPriority ? 1200.msecs : 2.seconds;
 		while (now - lastMessage < len)
@@ -890,16 +1125,27 @@ class OsuRoom
 			now = Clock.currTime(UTC());
 		}
 		lastMessage = now;
+	}
+
+	/// Sends a message with a 2 second ratelimit
+	/// Params:
+	///   message = raw message to send
+	///   highPriority = if yes, already send after a 1.2 second ratelimit (before others)
+	void sendMessage(in char[] message, HighPriority highPriority = HighPriority.no)
+	{
+		if (!open)
+			throw new Exception("Attempted to send message in closed room");
+		ratelimit(highPriority);
 		bot.sendMessage(channel, message);
 	}
 
 	/// Returns the current mp settings
 	Settings settings() @property
 	{
-		bot.fetchOldMessageLog(a => a.target == channel && a.sender == "BanchoBot", false);
+		bot.fetchOldMessageLog(a => a.target == channel && a.sender == banchoBotNick, false);
 		sendMessage("!mp settings");
 		auto msgs = bot.waitForMessageBunch(a => a.target == channel
-				&& a.sender == "BanchoBot", 10.seconds, 10.seconds, 500.msecs);
+				&& a.sender == banchoBotNick, 10.seconds, 10.seconds, 500.msecs);
 		Settings settings;
 		foreach (msg; msgs)
 		{
@@ -921,10 +1167,12 @@ class OsuRoom
 				auto space = msg.message.indexOf(" ");
 				if (space != -1)
 				{
-					settings.beatmapURL = msg.message[0 .. space];
-					if (settings.beatmapURL.startsWith("https://osu.ppy.sh/b/"))
-						settings.beatmapID = settings.beatmapURL["https://osu.ppy.sh/b/".length .. $];
-					settings.beatmapName = msg.message[space + 1 .. $];
+					settings.beatmap.url = msg.message[0 .. space];
+					if (settings.beatmap.url.startsWith("https://osu.ppy.sh/b/"))
+						settings.beatmap.id = settings.beatmap.url["https://osu.ppy.sh/b/".length .. $];
+					else
+						settings.beatmap.id = "";
+					settings.beatmap.name = msg.message[space + 1 .. $];
 				}
 			}
 			else if (msg.message.startsWith("Team mode: "))
@@ -964,15 +1212,21 @@ class OsuRoom
 					auto index = num - 1;
 					settings.players[index].ready = msg.message[8 .. 17] == "Ready    ";
 					settings.players[index].noMap = msg.message[8 .. 17] == "No Map   ";
-					settings.players[index].url = msg.message[18 .. 46].stripRight;
-					settings.players[index].id = msg.message[39 .. 46].stripRight;
-					auto bracket = msg.message.indexOf("[", 63);
+					settings.players[index].url = msg.message[18 .. $];
+					auto space = settings.players[index].url.indexOf(' ');
+					if (space == -1)
+						continue;
+					auto rest = settings.players[index].url[space + 1 .. $];
+					settings.players[index].url.length = space;
+					settings.players[index].id = settings.players[index].url[settings.players[index].url.lastIndexOf(
+							'/') + 1 .. $];
+					auto bracket = rest.indexOf("[", 16);
 					if (bracket == -1)
-						settings.players[index].name = msg.message[47 .. $].stripRight;
+						settings.players[index].name = rest.stripRight;
 					else
 					{
-						settings.players[index].name = msg.message[47 .. bracket].stripRight;
-						auto extra = msg.message[bracket + 1 .. $];
+						settings.players[index].name = rest[0 .. bracket].stripRight;
+						auto extra = rest[bracket + 1 .. $];
 						if (extra.endsWith("]"))
 							extra.length--;
 						foreach (part; extra.splitter(" / "))
@@ -988,7 +1242,102 @@ class OsuRoom
 				}
 			}
 		}
+		slots = settings.players;
 		return settings;
+	}
+
+	/// Processes a user leave event & updates the state
+	void processLeave(string user)
+	{
+		try
+		{
+			playerByName(user) = Settings.Player.init;
+			runTask({ onUserLeave.emit(user); });
+		}
+		catch (Exception)
+		{
+		}
+	}
+
+	/// Processes a user team switch event & updates the state
+	void processTeam(string user, Team team)
+	{
+		try
+		{
+			playerByName(user).team = team;
+			runTask({ onUserTeamChange.emit(user, team); });
+		}
+		catch (Exception)
+		{
+		}
+	}
+
+	/// Processes a user host event & updates the state
+	void processHost(string user)
+	{
+		foreach (ref slot; slots)
+			slot.host = false;
+		try
+		{
+			playerByName(user).host = true;
+			runTask({ onUserHost.emit(user); });
+		}
+		catch (Exception)
+		{
+		}
+	}
+
+	/// Processes a user join event & updates the state
+	void processJoin(string user, ubyte slot)
+	{
+		this.slot(slot) = Settings.Player(null, null, user);
+		runTask({ onUserJoin.emit(user, slot); });
+	}
+
+	/// Processes a user move event & updates the state
+	void processMove(string user, ubyte slot)
+	{
+		if (this.slot(slot) != Settings.Player.init)
+			throw new Exception("slot was occupied");
+		size_t old;
+		this.slot(slot) = playerByName(user, old);
+		this.slot(cast(int) old) = Settings.Player.init;
+		runTask({ onUserMove.emit(user, slot); });
+	}
+
+	/// Processes a room size change event & updates the state
+	void processSize(ubyte numSlots)
+	{
+		foreach (i; numSlots + 1 .. 16)
+			if (slots[i] != Settings.Player.init)
+			{
+				runTask((string user) { onUserLeave.emit(user); }, slots[i].name);
+				slots[i] = Settings.Player.init;
+			}
+	}
+
+	/// Processes a match end event & updates the state
+	void processMatchFinish()
+	{
+		foreach (ref slot; slots)
+			if (slot != Settings.Player.init)
+				slot.playing = false;
+		runTask({ onMatchEnd.emit(); });
+	}
+
+	/// Processes a user finish playing event & updates the state
+	void processFinishPlaying(string player, long score, bool pass)
+	{
+		playerByName(player).playing = false;
+		runTask({ onPlayerFinished.emit(player, score, pass); });
+	}
+
+	/// Processes a room closed event
+	void processClosed()
+	{
+		open = false;
+		bot.unmanageRoom(this);
+		runTask({ onClosed.emit(); });
 	}
 }
 
@@ -1054,5 +1403,165 @@ unittest
 	}).join();
 	running = false;
 	banchoConnection.disconnect();
+	botTask.join();
+}
+
+/// Simple auto host rotate bot
+unittest
+{
+	import std.range;
+
+	BanchoBot banchoConnection = new BanchoBot("WebFreak", "");
+	bool running = true;
+	auto botTask = runTask({
+		while (running)
+		{
+			banchoConnection.connect();
+			logDiagnostic("Got disconnected from bancho...");
+			sleep(2.seconds);
+		}
+	});
+	sleep(3.seconds);
+	OsuRoom room = banchoConnection.createRoom("4*+ auto host rotate (join time based)");
+	room.invite("WebFreak");
+	runTask({ room.password = ""; room.size = 8; room.mods = [Mod.FreeMod]; });
+	string[] hostOrder;
+	size_t currentHost;
+	room.onClosed ~= () {
+		running = false;
+		banchoConnection.disconnect();
+		botTask.join();
+	};
+
+	bool beatmapChosen = false;
+	bool choosingMap = false;
+	bool startedChoosingTimer = false;
+	Timer choosingTimer;
+	string nextHost(bool deleteCurrent = false)
+	{
+		if (deleteCurrent)
+			hostOrder = hostOrder[0 .. currentHost] ~ hostOrder[currentHost + 1 .. $];
+		if (hostOrder.length == 0)
+		{
+			// everyone left
+			//room.close();
+			return null;
+		}
+		else
+		{
+			if (!deleteCurrent)
+				currentHost = (currentHost + 1) % hostOrder.length;
+			else if (currentHost >= hostOrder.length)
+				currentHost = 0;
+			auto user = hostOrder[currentHost];
+			try
+			{
+				room.playerByName(user);
+				beatmapChosen = false;
+				choosingMap = false;
+				room.host = user;
+				if (choosingTimer && choosingTimer.pending)
+					choosingTimer.stop();
+				choosingTimer = setTimer(40.seconds, {
+					if (choosingMap || !hostOrder.length)
+						return;
+					room.sendMessage(
+						hostOrder[currentHost] ~ ": please pick a map or next host will be picked!");
+					room.setTimer(60.seconds);
+					startedChoosingTimer = true;
+				});
+				if (hostOrder.length)
+					room.sendMessage("Next hosts are " ~ hostOrder.cycle.drop(currentHost + 1)
+							.take(min(3, hostOrder.length - 1)).join(", "));
+				return user;
+			}
+			catch (Exception)
+			{
+				room.sendMessage("Tried to give host to " ~ user ~ " but they left?");
+				return nextHost(true);
+			}
+		}
+	}
+
+	room.onBeatmapPending ~= () {
+		if (beatmapChosen)
+			return;
+		if (choosingTimer && choosingTimer.pending)
+			choosingTimer.stop();
+		choosingMap = true;
+		if (startedChoosingTimer)
+		{
+			startedChoosingTimer = false;
+			room.abortTimer();
+		}
+		choosingTimer = setTimer(60.seconds, {
+			if (beatmapChosen || !hostOrder.length)
+				return;
+			room.sendMessage(hostOrder[currentHost] ~ ": please pick a map or next host will be picked!");
+			room.setTimer(30.seconds);
+			startedChoosingTimer = true;
+		});
+	};
+
+	room.onBeatmapChanged ~= (beatmap) {
+		if (choosingTimer && choosingTimer.pending)
+			choosingTimer.stop();
+		beatmapChosen = true;
+	};
+
+	room.onCountdownFinished ~= () {
+		if (!beatmapChosen)
+			nextHost();
+	};
+
+	room.onUserHost ~= (user) {
+		if (user != hostOrder[currentHost])
+		{
+			string s = nextHost();
+			if (s != user)
+				room.sendMessage("Host passed elsewhere, passing where it was supposed to go next");
+		}
+	};
+	room.onUserJoin ~= (user, slot) {
+		if (hostOrder.canFind(user))
+			return;
+		if (hostOrder.length)
+		{
+			// insert before current host
+			hostOrder = hostOrder[0 .. currentHost] ~ user ~ hostOrder[currentHost .. $];
+			currentHost++;
+		}
+		else
+		{
+			hostOrder = [user]; // first join!
+			nextHost();
+		}
+	};
+	room.onUserLeave ~= (user) {
+		if (user == hostOrder[currentHost])
+			nextHost(true);
+	};
+	bool startedLongTimer;
+	room.onBeatmapChanged ~= (beatmap) {
+		if (!startedLongTimer)
+		{
+			room.start(3.minutes);
+			startedLongTimer = true;
+		}
+	};
+	bool startedTimer;
+	room.onPlayersReady ~= () {
+		if (!startedTimer)
+		{
+			room.start(15.seconds);
+			startedTimer = true;
+		}
+	};
+	room.onMatchStart ~= () {
+		startedTimer = false;
+		startedLongTimer = false;
+		room.password = "";
+	};
+	room.onMatchEnd ~= () { nextHost(); };
 	botTask.join();
 }
