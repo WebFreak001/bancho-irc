@@ -621,6 +621,23 @@ class BanchoBot
 		return room;
 	}
 
+	/// Joins a room in IRC and creates the room object from it.
+	/// Params:
+	///     room = IRC Room name (starting with `#mp_`) where to send the messages in.
+	///     game = optional string containing the osu://mp/ URL.
+	OsuRoom fromUnmanaged(string room, string game = null)
+	in
+	{
+		assert(room.startsWith("#mp_"));
+	}
+	do
+	{
+		client.sendLine("JOIN " ~ room);
+		auto obj = new OsuRoom(this, room, game);
+		rooms ~= obj;
+		return obj;
+	}
+
 	/// internal function to remove a room from the managed rooms list
 	void unmanageRoom(OsuRoom room)
 	{
