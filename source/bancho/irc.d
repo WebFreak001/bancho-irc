@@ -427,6 +427,7 @@ class BanchoBot
 		{
 			if (room.open && message.target == room.channel)
 			{
+				runTask((OsuRoom room, Message message) { room.onMessage.emit(message); }, room, message);
 				try
 				{
 					if (message.message == "All players are ready")
