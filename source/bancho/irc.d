@@ -314,16 +314,22 @@ class BanchoBot
 	OsuRoom[] rooms;
 	///
 	TCPConnection client;
-	///
+	/// Credentials to use for authentication when connecting.
 	string username, password;
+	/// IRC host to connect to.
+	string host;
+	/// IRC port to use to connect.
+	ushort port;
 
 	/// Prepares a bancho IRC connection with username & password (can be obtained from https://osu.ppy.sh/p/irc)
-	this(string username, string password)
+	this(string username, string password, string host = "irc.ppy.sh", ushort port = 6667)
 	{
 		if (!password.length)
 			throw new Exception("Password can't be empty");
 		this.username = username;
 		this.password = password;
+		this.host = host;
+		this.port = port;
 	}
 
 	/// Clears all logs, called by connect
@@ -334,13 +340,13 @@ class BanchoBot
 		clearQuitLog();
 	}
 
-	/// Connects to irc.ppy.sh:6667 and authenticates with username & password. Blocks and processes all messages sent by the TCP socket. Recommended to be called in runTask.
+	/// Connects to `this.host:this.port` (irc.ppy.sh:6667) and authenticates with username & password. Blocks and processes all messages sent by the TCP socket. Recommended to be called in runTask.
 	/// Cleans up on exit properly and is safe to be called again once returned.
 	void connect()
 	{
 		clear();
 
-		client = connectTCP("irc.ppy.sh", 6667);
+		client = connectTCP(host, port);
 		client.banchoAuthenticate(username, password);
 		try
 		{
