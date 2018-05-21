@@ -421,13 +421,15 @@ class BanchoBot
 	/// called by mixin template
 	void preProcessMessage(Message message)
 	{
+		foreach (room; rooms)
+			if (room.open && message.target == room.channel)
+				runTask((OsuRoom room, Message message) { room.onMessage.emit(message); }, room, message);
 		if (message.sender != banchoBotNick)
 			return;
 		foreach (room; rooms)
 		{
 			if (room.open && message.target == room.channel)
 			{
-				runTask((OsuRoom room, Message message) { room.onMessage.emit(message); }, room, message);
 				try
 				{
 					if (message.message == "All players are ready")
