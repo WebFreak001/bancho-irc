@@ -534,6 +534,7 @@ class BanchoBot
 						room.sendMessage("An internal exception occurred, room will be closed if this happens again. "
 								~ e.msg ~ " in " ~ e.file.baseName ~ ":" ~ e.line.to!string);
 						room.fatal = true;
+						logError("%s", e);
 					}
 					break;
 				}
