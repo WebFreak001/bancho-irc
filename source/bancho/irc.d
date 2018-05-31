@@ -1172,6 +1172,8 @@ class OsuRoom // must be a class, don't change it
 		auto msgs = bot.waitForMessageBunch(a => a.target == channel
 				&& a.sender == banchoBotNick, 10.seconds, 10.seconds, 500.msecs);
 		Settings settings;
+		int foundPlayers;
+	SettingsLoop:
 		foreach (msg; msgs)
 		{
 			if (msg.message.startsWith("Room name: "))
@@ -1225,6 +1227,7 @@ class OsuRoom // must be a class, don't change it
 			}
 			else if (msg.message.startsWith("Slot "))
 			{
+				foundPlayers++;
 				// Slot 1  Not Ready https://osu.ppy.sh/u/1756786 WebFreak        [Host / Team Blue / Hidden, HardRock]
 				// Slot 1  Ready     https://osu.ppy.sh/u/1756786 WebFreak        [Host / Team Blue / NoFail, Hidden, HardRock]
 				//"Slot 1  Not Ready https://osu.ppy.sh/u/1756786 WebFreak        "
@@ -1266,6 +1269,13 @@ class OsuRoom // must be a class, don't change it
 					}
 				}
 			}
+		}
+		if (foundPlayers < settings.numPlayers)
+		{
+			msgs = bot.waitForMessageBunch(a => a.target == channel
+				&& a.sender == banchoBotNick, 1.seconds, 1.seconds, 500.msecs);
+			if (msgs.length)
+				goto SettingsLoop;
 		}
 		slots = settings.players;
 		return settings;
