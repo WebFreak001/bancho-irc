@@ -527,11 +527,9 @@ class BanchoBot
 				}
 				catch (Exception e)
 				{
-					if (room.fatal)
-						room.close();
-					else
+					if (!room.fatal)
 					{
-						room.sendMessage("An internal exception occurred, room will be closed if this happens again. "
+						room.sendMessage("An internal exception occurred: "
 								~ e.msg ~ " in " ~ e.file.baseName ~ ":" ~ e.line.to!string);
 						room.fatal = true;
 						logError("%s", e);
