@@ -1167,10 +1167,13 @@ class OsuRoom // must be a class, don't change it
 	/// Returns the current mp settings
 	Settings settings() @property
 	{
+	Retry:
 		bot.fetchOldMessageLog(a => a.target == channel && a.sender == banchoBotNick, false);
 		sendMessage("!mp settings");
 		auto msgs = bot.waitForMessageBunch(a => a.target == channel
 				&& a.sender == banchoBotNick, 10.seconds, 10.seconds, 500.msecs);
+		if (!msgs.length)
+			return Settings.init;
 		Settings settings;
 		int foundPlayers;
 	SettingsLoop:
@@ -1277,6 +1280,8 @@ class OsuRoom // must be a class, don't change it
 			if (msgs.length)
 				goto SettingsLoop;
 		}
+		if (foundPlayers && !settings.numPlayers)
+			goto Retry;
 		slots = settings.players;
 		return settings;
 	}
