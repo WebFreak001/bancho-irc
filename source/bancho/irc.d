@@ -529,8 +529,9 @@ class BanchoBot
 				{
 					if (!room.fatal)
 					{
-						room.sendMessage("An internal exception occurred: "
-								~ e.msg ~ " in " ~ e.file.baseName ~ ":" ~ e.line.to!string);
+						room.sendMessage(
+								"An internal exception occurred: " ~ e.msg ~ " in "
+								~ e.file.baseName ~ ":" ~ e.line.to!string);
 						room.fatal = true;
 						logError("%s", e);
 					}
@@ -1167,17 +1168,18 @@ class OsuRoom // must be a class, don't change it
 	/// Returns the current mp settings
 	Settings settings() @property
 	{
+		int step = 0;
 	Retry:
 		bot.fetchOldMessageLog(a => a.target == channel && a.sender == banchoBotNick, false);
 		sendMessage("!mp settings");
 		auto msgs = bot.waitForMessageBunch(a => a.target == channel
-				&& a.sender == banchoBotNick, 10.seconds, 10.seconds, 500.msecs);
+				&& a.sender == banchoBotNick, 10.seconds, 10.seconds, 400.msecs);
 		if (!msgs.length)
 			return Settings.init;
 		Settings settings;
+		settings.numPlayers = -1;
 		int foundPlayers;
-	SettingsLoop:
-		foreach (msg; msgs)
+		SettingsLoop: foreach (msg; msgs)
 		{
 			if (msg.message.startsWith("Room name: "))
 			{
@@ -1273,15 +1275,17 @@ class OsuRoom // must be a class, don't change it
 				}
 			}
 		}
-		if (foundPlayers < settings.numPlayers)
+		if ((foundPlayers < settings.numPlayers || settings.numPlayers == -1) && ++step < 5)
 		{
 			msgs = bot.waitForMessageBunch(a => a.target == channel
-				&& a.sender == banchoBotNick, 1.seconds, 1.seconds, 500.msecs);
+					&& a.sender == banchoBotNick, 3.seconds, 3.seconds, 600.msecs);
 			if (msgs.length)
 				goto SettingsLoop;
 		}
-		if (foundPlayers && !settings.numPlayers)
+		if (foundPlayers && settings.numPlayers <= 0 && step < 5)
 			goto Retry;
+		if (settings.numPlayers == -1)
+			return settings;
 		slots = settings.players;
 		return settings;
 	}
