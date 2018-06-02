@@ -1178,10 +1178,12 @@ class OsuRoom // must be a class, don't change it
 	{
 		int step = 0;
 	Retry:
-		bot.fetchOldMessageLog(a => a.target == channel && a.sender == banchoBotNick, false);
+		bot.fetchOldMessageLog(a => a.target == channel && a.sender == banchoBotNick
+				&& a.message.isSettingsMessage, false);
 		sendMessage("!mp settings");
 		auto msgs = bot.waitForMessageBunch(a => a.target == channel
-				&& a.sender == banchoBotNick, 10.seconds, 10.seconds, 400.msecs);
+				&& a.sender == banchoBotNick && a.message.isSettingsMessage, 10.seconds,
+				10.seconds, 400.msecs);
 		if (!msgs.length)
 			return Settings.init;
 		Settings settings;
@@ -1285,8 +1287,8 @@ class OsuRoom // must be a class, don't change it
 		}
 		if ((foundPlayers < settings.numPlayers || settings.numPlayers == -1) && ++step < 5)
 		{
-			msgs = bot.waitForMessageBunch(a => a.target == channel
-					&& a.sender == banchoBotNick, 3.seconds, 3.seconds, 600.msecs);
+			msgs = bot.waitForMessageBunch(a => a.target == channel && a.sender == banchoBotNick
+					&& a.message.isSettingsMessage, 3.seconds, 3.seconds, 600.msecs);
 			if (msgs.length)
 				goto SettingsLoop;
 		}
@@ -1391,6 +1393,15 @@ class OsuRoom // must be a class, don't change it
 		bot.unmanageRoom(this);
 		runTask({ onClosed.emit(); });
 	}
+}
+
+bool isSettingsMessage(string msg)
+{
+	return msg.startsWith("Room name: ") || msg.startsWith("Beatmap: ")
+		|| msg.startsWith("Team mode: ") || msg.startsWith("Active mods: ")
+		|| msg.startsWith("Players: ") || (msg.startsWith("Slot ")
+				&& msg.length >= 63 && (msg["Slot ".length .. $].front >= '0'
+					&& msg["Slot ".length .. $].front <= '9'));
 }
 
 ///
