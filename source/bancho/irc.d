@@ -497,8 +497,8 @@ class BanchoBot
 					{
 						if (message.message.endsWith("."))
 							message.message.length--;
-						room.processJoin(message.message[0 .. index],
-								cast(ubyte)(message.message[index + " joined in slot ".length .. $].to!ubyte - 1));
+						string s = message.message[index + " joined in slot ".length .. $];
+						room.processJoin(message.message[0 .. index], cast(ubyte)(s.parse!ubyte - 1));
 						break;
 					}
 					if ((index = message.message.indexOf(" moved to slot ")) != -1)
