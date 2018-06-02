@@ -967,6 +967,14 @@ class OsuRoom // must be a class, don't change it
 		return slots[index];
 	}
 
+	bool hasPlayer(string name)
+	{
+		foreach (ref slot; slots)
+			if (slot.name == name)
+				return true;
+		return false;
+	}
+
 	ref Settings.Player playerByName(string name)
 	{
 		foreach (ref slot; slots)
